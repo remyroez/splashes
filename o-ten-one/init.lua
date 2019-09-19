@@ -48,6 +48,12 @@ function splashlib.new(init)
   local self = {}
   local width, height = love.graphics.getDimensions()
 
+  self.base_folder = init.base_folder or ''
+  if #self.base_folder > 0 and self.base_folder:sub(-1) ~= '/' then
+    self.base_folder = self.base_folder .. '/'
+  end
+  self.base_folder = self.base_folder .. current_folder
+
   self.background = init.background == nil and colors.bg or init.background
   self.delay_before = init.delay_before or 0.3
   self.delay_after = init.delay_after or 0.7
@@ -56,7 +62,7 @@ function splashlib.new(init)
     local rain = {}
     rain.spacing_x = 110
     rain.spacing_y = 80
-    rain.image = love.graphics.newImage(current_folder .. "/baby.png")
+    rain.image = love.graphics.newImage(self.base_folder .. "/baby.png")
     rain.img_w = rain.image:getWidth()
     rain.img_h = rain.image:getHeight()
     rain.ox = -rain.img_w / 2
@@ -196,7 +202,7 @@ function splashlib.new(init)
   self.elapsed = 0
   self.alpha = 1
   self.heart = {
-    sprite = love.graphics.newImage(current_folder .. "/heart.png"),
+    sprite = love.graphics.newImage(self.base_folder .. "/heart.png"),
     scale = 0,
     rot   = 0
   }
@@ -211,14 +217,14 @@ function splashlib.new(init)
   }
 
   self.text = {
-    obj   = love.graphics.newText(love.graphics.newFont(current_folder .. "/handy-andy.otf", 22), "made with"),
+    obj   = love.graphics.newText(love.graphics.newFont(self.base_folder .. "/handy-andy.otf", 22), "made with"),
     alpha = 0
   }
   self.text.width, self.text.height = self.text.obj:getDimensions()
 
   self.logo = {
-    sprite = love.graphics.newImage(current_folder .. "/logo.png"),
-    mask   = love.graphics.newImage(current_folder .. "/logo-mask.png"),
+    sprite = love.graphics.newImage(self.base_folder .. "/logo.png"),
+    mask   = love.graphics.newImage(self.base_folder .. "/logo-mask.png"),
     pen    = 0
   }
   self.logo.width, self.logo.height = self.logo.sprite:getDimensions()
